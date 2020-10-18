@@ -68,3 +68,24 @@ new_fund = [obs1["POPU_LSA"], obs1["POPU_ST"], obs1["CENTLIB"],
 X_new = [new_fund]
 
 lr.predict(X_new)
+
+#Fitting Ridge regression on Training data
+from sklearn.linear_model import Ridge
+rr=Ridge(solver='svd')
+rr.fit(X_train, y_train)
+
+rr.score(X_train, y_train)
+
+#Testing Ridge Regression on the test data and including additional accuracy models
+print(rr.score(X_test, y_test))
+
+preds = rr.predict(X_test)
+
+score = explained_variance_score(y_test, preds)
+mae = mean_absolute_error(y_test, preds)
+rmse = math.sqrt(mean_squared_error(y_test, preds))
+r2 = r2_score(y_test, preds)
+   
+print("score = {:.5f} | MAE = {:.3f} | RMSE = {:.3f} | R2 = {:.5f}"
+          .format(score, mae, rmse, r2)) 
+rr.predict(X_new)
